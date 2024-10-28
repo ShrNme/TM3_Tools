@@ -19,22 +19,22 @@ namespace TM3_Tools
     class Decoder
     {
         //function for decoding ATP files found within the BINs
-        //basically just re-implement some of the code you found in the Ghidra decomp
+        //basically just re-implements the decompression routine found in the game
+        //I broke it down into 11 parts and have implemented them here
+        //TODO: MAKE THE GOOGLE DOC DESCRIBING THE PARTS PRESENTABLE AND PUBLIC
         
         public static void DecodeATP(int startAddress, byte[] byteArray, String outputPath)
         {
             //Note to self: when implementing this, use integers that refer to indexes on the array as "pointers"
-            //Follow the instructions in the google doc as closely as possible
+            //Follow the instructions in the assembly as close as possible
             //Use labels and gotos for the parts
-            //byte[] destination = new byte[byteArray.Length]; 
-            
 
-            uint sourcePointer = (uint) startAddress + 8; //a0 in the document, skips 8 to avoid the ATP file header
-            //Console.WriteLine("source pointer: " + sourcePointer + " out of an array lenght of " + byteArray.Length);
+            uint sourcePointer = (uint) startAddress + 8; //a0 in the asm, skips 8 to avoid the ATP file header
 
-            //set up a few variables to take place of some stupid the registers that are just regular registers in the doc cuz i had no clue what they were being used for but they were very clearly being used
+
+            //set up a few variables to take place of some regiseters.
+            //I have no idea what these registers were being used for but they were very clearly being used
             
-            //replacing this bytes with uints to solve some problem
             uint v0 = 0x0;
             uint v1 = 0x0;
             
@@ -48,7 +48,6 @@ namespace TM3_Tools
             }
             byteArray = copy;
 
-            //testing replacing the destination array with a list
             List<byte> destList = new List<byte>();
 
             //Initialization phase from the document
@@ -85,7 +84,6 @@ namespace TM3_Tools
                 sourcePointer++;
                 previousByte = (byte)(previousByte >> 0x1);
 
-                //destination[destinationPointer] = buffer;
                 destinationPointer++;
                 destList.Add(buffer);
 
@@ -248,9 +246,7 @@ namespace TM3_Tools
 
         Part11:
 
-            // there's a delay slot in part 11 but it shouldn't matter
-            //destination = SubArray(0, (int)destinationPointer, byteArray);
-            //File.WriteAllBytes(outputPath, destination);
+            // there's a delay slot in part 11 but it shouldn't affect output
             File.WriteAllBytes(outputPath, destList.ToArray());
             return;
 
@@ -258,7 +254,7 @@ namespace TM3_Tools
 
         public static byte[] SubArray(int startAddress, int size, byte[] byteArray)
         {
-            //this isn't efficient. there are better ways to slice an array, but getting it working matters more right now
+            //there are better ways to slice an array, but getting it working matters more right now
             //TODO: more efficient way to get array slices
             byte[] temp = new byte[size];
 

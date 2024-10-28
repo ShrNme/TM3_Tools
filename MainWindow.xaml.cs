@@ -21,7 +21,6 @@ namespace TM3_Tools
     /// </summary>
     public partial class MainWindow : Window
     {
-        //I could use an array for this to repeat less code, but for some reason I don't feel like that right now
         public static string Data1Filepath;
         public static string Data2Filepath;
         public static string Data3Filepath;
@@ -91,28 +90,19 @@ namespace TM3_Tools
             Data5Box.Text = Data5Filepath;
         }
 
-        //Currently onyl extracts from Data5.bin
+        //Extracts text from Data5.BIN
         private void ExtractScript_Btn_Click(object sender, RoutedEventArgs e)
         {
            
 
-            if(Data5Filepath != null && Data5Filepath != pathFail)// &&Data3Filepath!=pathFail)
+            if(Data5Filepath != null && Data5Filepath != pathFail)
             {
-                //FileStream fileReader = new FileStream(Data5Filepath,FileMode.Open, FileAccess.Read, FileShare.Read);
                 ProgressLabel.Content = "Extracting script";
                 try
                 {
 
-                    //FileStream filewrite = new FileStream(SaveFileDialog(), FileMode.Create, FileAccess.Write, FileShare.None);
                     StreamWriter filewrite = new StreamWriter(SaveFileDialog("Text file (.txt) |*.txt"), true);
 
-                    //Protip: try to make endAdress 3-4 bytes after the actual text ends, just to avoid cutting anything off
-                    //extractText can handle having text left over after the for loop exits but still, don't wanna chance it
-
-                    //read from Data5.bin
-                    
-
-                    
 
                     byte [] bytearray = File.ReadAllBytes(Data5Filepath);
                    
@@ -213,11 +203,6 @@ namespace TM3_Tools
 
         private void Extract_ATP_files_Click(object sender, RoutedEventArgs e)
         {
-            //currently for testing
-            //TODO: MAKE IT SO SOMEONE CAN CHOOSE AN ATP FILE DIRECTLY
-            //ALSO ADD A WINDOW FOR EXTRACTING ATP FILES FROM THE BINS
-
-
  
             Window extract = new Window1(); //i tried changing the class name but then something else broke and i don't feel like dealing with that right now
             extract.ShowDialog();

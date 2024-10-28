@@ -22,6 +22,8 @@ namespace TM3_Tools
     public partial class Window1 : Window
     {
         string targetPath;
+
+        //class for pairing the start address and end address of an ATP file
         private class StartEndPair
         {
             uint Start;
@@ -101,6 +103,7 @@ namespace TM3_Tools
             }
         }
 
+        //The following 4 functions handle clicks on the buttons that change which Data file we are extracting ATPs from.
         private void Data3_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -206,6 +209,7 @@ namespace TM3_Tools
             }
         }
 
+        //Extracts all the ATPs from a data bin file
         private void Extract_Click(object sender, RoutedEventArgs e)
         {
             try {

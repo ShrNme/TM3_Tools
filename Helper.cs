@@ -48,16 +48,6 @@ namespace TM3_Tools
 
 
         }
-        //Since JIS uses two bytes, i will make a function to resolve a jis character from two bytes.
-        //NO LONGER USING THIS, but will keep it around for the time being
-        public static string resolveJIS(byte byte1, byte byte2)
-        {
-            System.Text.Encoding enc = System.Text.Encoding.GetEncoding("shift-jis");
-            System.Text.Encoding enc2 = System.Text.Encoding.GetEncoding("unicode");
-            byte[] temp = { byte1, byte2 };
-            byte[] temp2 = System.Text.Encoding.Convert(enc, enc2, temp);
-            return enc2.GetString(temp2);
-        }
 
         private static bool byteArrayContainsSubarray(byte[] array, byte[] subarray)
         {
@@ -101,7 +91,7 @@ namespace TM3_Tools
         //I'm sorry but I'm only doing it this way to make extractText look easier to read
         private static bool isByteArrayClean(byte[] array)
         {
-            //see if it contains 
+            //see if it contains banned subarrays 
             if(byteArrayContainsSubarray(array, BadArray) || byteArrayContainsSubarray(array, BadArray2) || byteArrayContainsSubarray(array,BadArray3) || byteArrayContainsSubarray(array, BadArray4))
             {
                 return false;
@@ -152,7 +142,7 @@ namespace TM3_Tools
             List<byte> temp = new List<byte>();
             for (int i = startAddress; i < endAddress; i++)
             {
-                //Console.WriteLine(i.ToString("X"));
+                
                 byte x = byteArray[i];
                 
                 
@@ -185,7 +175,7 @@ namespace TM3_Tools
 
             if (isByteArrayClean(testArray))
             {
-                //temp = clearInvalidCharacters(temp);
+                
                 tempString = byteArrayToString(testArray);
             }
             else
@@ -198,7 +188,7 @@ namespace TM3_Tools
             //also, when the first character in the string is " or ! it's going to be nonsense and not game text
             if (tempString != null && tempString.Length > 1 && tempString[0] != '"' && tempString[0] != '!')
             {
-                tempString = tempString + "\n";// + ", <insert english translation here>\n";
+                tempString = tempString + "\n";
                 streamWriter.Write(tempString);
             }
         }
