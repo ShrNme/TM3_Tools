@@ -4,6 +4,8 @@ This is a work-in-progress toolset for a potential fan translation of Konami's P
 
 ## **SET-UP INSTRUCTIONS**
 
+-Download and unzip the latest (and currently, only) release of TM3Tools, version 0.1
+
 -Extract the 5 numbered Data.BIN files from the game using an .iso editor.
 
 -Specify paths to the data files.
