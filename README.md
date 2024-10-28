@@ -1,6 +1,6 @@
 ## **DESCRIPTION**
 
-This is a work-in-progress toolset for a potential fan translation of Konami's Playstation 2 Dating Sim _Tokiemeki Memorial 3:Yakusoku no Ano Basho de_
+This is a work-in-progress toolset for a potential fan translation of Konami's Playstation 2 Dating Sim _Tokimeki Memorial 3:Yakusoku no Ano Basho de_
 
 ## **SET-UP INSTRUCTIONS**
 
