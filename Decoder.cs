@@ -60,7 +60,7 @@ namespace TM3_Tools
         //The parts here will follow the parts I identified in the document
             Part1:
             //Part1
-            v0 = (byte)(previousByte & 0x1);//those goes before the if because of delay slots
+            v0 = (uint)(previousByte & 0x1);//those goes before the if because of delay slots
             if (counter == 0)
             {
                 
@@ -111,7 +111,7 @@ namespace TM3_Tools
 
             Part4:
             //Part4
-            v0 = (byte)(previousByte & 0x1);
+            v0 = (uint)(previousByte & 0x1);
             v0 = byteArray[sourcePointer]; // goes before the if because of delay slots
             if (v0 == 0x0)
             {
@@ -135,7 +135,7 @@ namespace TM3_Tools
 
             Part5:
             //Part5
-            v0 = (byte)(previousByte & 0x1);
+            v0 = (uint)(previousByte & 0x1);
             previousByte = (byte)(previousByte >> 0x1);
             counter--;
             a2 = (byte)(v0 << 0x1);// goes before the if because of delay slots
@@ -155,14 +155,14 @@ namespace TM3_Tools
 
             Part6:
             //Part6
-            v0 = (byte)(previousByte & 0x1);
+            v0 = (uint)(previousByte & 0x1);
             previousByte = (byte)(previousByte >> 0x1);
             v1 = byteArray[sourcePointer];
             sourcePointer++;
-            v0 = (byte)(a2 + v0);
+            v0 = (a2 + v0);
             counter--;
 
-            a2 = (byte)(v0 + 0x2);//before the if statement because DELAY SLOT
+            a2 = (v0 + 0x2);//before the if statement because DELAY SLOT
             if (v1 == 0)
             {
                 //DELAY SLOT BABY
@@ -176,9 +176,9 @@ namespace TM3_Tools
             sourcePointer++;
             v1 = byteArray[sourcePointer];
             sourcePointer++;
-            v0 = (byte)(v0 << 8);
+            v0 = (v0 << 8);
             previousByte = (byte)(previousByte >> 0x1);
-            v1 = (byte)(v0 | v1);
+            v1 = (v0 | v1);
             counter--;//before the if statement because of delay slots
             if (v1 == 0x0)
             {
@@ -206,13 +206,13 @@ namespace TM3_Tools
             //Part8
             v0 = byteArray[sourcePointer];
             sourcePointer++;
-            v1 = (byte)(v1 >> 4);
-            a2 = (byte)(v0 + 1);
+            v1 = (v1 >> 4);
+            a2 = (v0 + 1);
             goto Part9;
             
             Part9:
             //Part9
-            v1 = (byte)(destinationPointer - v1);
+            v1 = (destinationPointer - v1);
             if (a2 == 0)
             {
                 goto Part1;
