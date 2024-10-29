@@ -41,7 +41,7 @@ namespace TM3_Tools
             uint a2 = 0x0;
 
             //kinda stupid way for getting around the fact that source pointer will eventually be out of bounds for byteArray
-            byte[] copy = new byte[byteArray.Length * 10];
+            byte[] copy = new byte[byteArray.Length * 20];
             for(int i =0; i<byteArray.Length; i++)
             {
                 copy[i] = byteArray[i];
@@ -223,9 +223,10 @@ namespace TM3_Tools
                 goto Part10;
             }
 
-            Part10:
+        Part10:
             //Part10
-            v0 = byteArray[v1];
+            Console.WriteLine("byteArray length: " + byteArray.Length + " | v1: " + v1);
+            v0 = byteArray[v1]; //so for some reason v1 is getting set to some ungodly large number
             v1++;
             a2--;
             //destination[destinationPointer] = (byte)v0;
