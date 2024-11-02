@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+//using AuroraLib.Compression;
 
 namespace TM3_Tools
 {
@@ -41,12 +42,15 @@ namespace TM3_Tools
             uint a2 = 0x0;
 
             //kinda stupid way for getting around the fact that source pointer will eventually be out of bounds for byteArray
+            Console.WriteLine("byte array length = " + byteArray.Length);
             byte[] copy = new byte[byteArray.Length * 20];
             for(int i =0; i<byteArray.Length; i++)
             {
                 copy[i] = byteArray[i];
             }
             byteArray = copy;
+
+            Console.WriteLine("byte array length = " + byteArray.Length);
 
             List<byte> destList = new List<byte>();
 
@@ -67,6 +71,7 @@ namespace TM3_Tools
                 previousByte = byteArray[sourcePointer];
                 sourcePointer++;
                 counter = 8;
+                v0 = (uint)(previousByte & 0x1); //seems i glossed this over on my first scroll though the assembly
             }
             else
             {
@@ -138,7 +143,7 @@ namespace TM3_Tools
             v0 = (uint)(previousByte & 0x1);
             previousByte = (byte)(previousByte >> 0x1);
             counter--;
-            a2 = (byte)(v0 << 0x1);// goes before the if because of delay slots
+            a2 = v0 << 0x1;// goes before the if because of delay slots
             if (counter != 0)
             {
                 goto Part6;
@@ -159,7 +164,7 @@ namespace TM3_Tools
             previousByte = (byte)(previousByte >> 0x1);
             v1 = byteArray[sourcePointer];
             sourcePointer++;
-            v0 = (a2 + v0);
+            v0 = a2 + v0;
             counter--;
 
             a2 = (v0 + 0x2);//before the if statement because DELAY SLOT
@@ -176,9 +181,9 @@ namespace TM3_Tools
             sourcePointer++;
             v1 = byteArray[sourcePointer];
             sourcePointer++;
-            v0 = (v0 << 8);
+            v0 = v0 << 8;
             previousByte = (byte)(previousByte >> 0x1);
-            v1 = (v0 | v1);
+            v1 = v0 | v1;
             counter--;//before the if statement because of delay slots
             if (v1 == 0x0)
             {
@@ -187,7 +192,7 @@ namespace TM3_Tools
             else
             {
                 
-                a2 = (byte)(v1 & 0xf);
+                a2 = v1 & 0xf;
                 a2 = a2 + 0x2;
                 if(a2 == 0x0)
                 {
@@ -206,13 +211,13 @@ namespace TM3_Tools
             //Part8
             v0 = byteArray[sourcePointer];
             sourcePointer++;
-            v1 = (v1 >> 4);
-            a2 = (v0 + 1);
+            v1 = v1 >> 4;
+            a2 = v0 + 1;
             goto Part9;
             
             Part9:
             //Part9
-            v1 = (destinationPointer - v1);
+            v1 = (destinationPointer - v1); //perhaps this is where v1 is being set to a giant number
             if (a2 == 0)
             {
                 goto Part1;
@@ -225,7 +230,7 @@ namespace TM3_Tools
 
         Part10:
             //Part10
-            Console.WriteLine("byteArray length: " + byteArray.Length + " | v1: " + v1);
+            //Console.WriteLine("byteArray length: " + byteArray.Length + " | v1: " + v1);
             v0 = byteArray[v1]; //so for some reason v1 is getting set to some ungodly large number
             v1++;
             a2--;
@@ -265,6 +270,13 @@ namespace TM3_Tools
             }
 
             return temp;
+        }
+
+        public static void AuroraDecodeTest(string inPath, string outPath)
+        {
+            FileStream source = new FileStream("input.dat", FileMode.Open, FileAccess.Read, FileShare.Read);
+            FileStream destination = new FileStream("output.dat", FileMode.Create, FileAccess.ReadWrite, FileShare.None);
+            //new LZSS().Decompress(source, destination);
         }
         
     }
