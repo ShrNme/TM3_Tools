@@ -67,6 +67,7 @@ namespace TM3_Tools
                 previousByte = byteArray[sourcePointer];
                 sourcePointer++;
                 counter = 8;
+                v0 = (uint)(previousByte & 0x1); //seems i glossed this over on my first scroll though the assembly
             }
             else
             {
