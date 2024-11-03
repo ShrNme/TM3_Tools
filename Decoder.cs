@@ -213,7 +213,7 @@ namespace TM3_Tools
             
             Part9:
             //Part9
-            v1 = (destinationPointer - v1);
+            v1 = (destinationPointer - v1);//i think here's our culprit for where v1 is getting set to a gigantic number
             if (a2 == 0)
             {
                 goto Part1;
@@ -227,7 +227,8 @@ namespace TM3_Tools
         Part10:
             //Part10
             Console.WriteLine("byteArray length: " + byteArray.Length + " | v1: " + v1);
-            v0 = byteArray[v1]; //so for some reason v1 is getting set to some ungodly large number
+            //so for some reason v1 is getting set to some ungodly large number
+            v0 = byteArray[v1]; 
             v1++;
             a2--;
             //destination[destinationPointer] = (byte)v0;
