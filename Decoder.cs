@@ -46,7 +46,7 @@ namespace TM3_Tools
             uint a2 = 0x0;
 
             //kinda stupid way for getting around the fact that source pointer will eventually be out of bounds for byteArray
-            byte[] copy = new byte[byteArray.Length * 20];
+            byte[] copy = new byte[32 * 1048576]; //just casually set it to the FUCKING SIZE OF THE ENTIRE PS2 RAM
             for(int i =0; i<byteArray.Length; i++)
             {
                 copy[i] = byteArray[i];
@@ -68,10 +68,10 @@ namespace TM3_Tools
             v0 = (uint)(previousByte & 0x0001);//those goes before the if because of delay slots
             if (counter == 0)
             {
-                //surrouning this in a try-catch to test the results of a differen t change
+
+                sourcePointer++; //LOADS ALSO HAVE DELAY SLOTS BITCH!!!!!
                 previousByte = byteArray[sourcePointer];
                 
-                sourcePointer++;
                 counter = 8;
                 v0 = (uint)(previousByte & 0x0001); //seems i glossed this over on my first scroll though the assembly
             }
@@ -85,10 +85,10 @@ namespace TM3_Tools
             counter--;//goes before the if because of delay slots
             if (v0 == 0x0)
             {
-                
 
+                sourcePointer++; //delay slot!
                 buffer = byteArray[sourcePointer];
-                sourcePointer++;
+                
                 previousByte = (byte)(previousByte >> 0x1);
 
                 destinationPointer++;
@@ -106,9 +106,8 @@ namespace TM3_Tools
             previousByte = (byte)(previousByte >> 0x1);//goes before the if because of delay slots
             if (counter == 0)
             {
-                
+                sourcePointer++; //delay slot
                 previousByte = byteArray[sourcePointer];
-                sourcePointer++;
                 counter = 8;
             }
             else
@@ -132,9 +131,9 @@ namespace TM3_Tools
                 if (counter != 0){
                     goto Part5;
                 }
-                
+
+                sourcePointer++;//delay slots
                 previousByte = byteArray[sourcePointer];
-                sourcePointer++;
                 counter = 8;
                 goto Part5;
 
@@ -152,9 +151,8 @@ namespace TM3_Tools
             }
             else
             {
-               
-                previousByte = byteArray[sourcePointer];
                 sourcePointer++;
+                previousByte = byteArray[sourcePointer];
                 counter = 8;
                 goto Part6;
 
@@ -164,8 +162,8 @@ namespace TM3_Tools
             //Part6
             v0 = (uint)(previousByte & 0x0001);
             previousByte = (byte)(previousByte >> 0x1);
-            v1 = byteArray[sourcePointer];
             sourcePointer++;
+            v1 = byteArray[sourcePointer];
             v0 = (a2 + v0);
             counter--;
 
@@ -181,8 +179,8 @@ namespace TM3_Tools
         Part7:
             //Part7
             sourcePointer++;
-            v1 = byteArray[sourcePointer];
             sourcePointer++;
+            v1 = byteArray[sourcePointer];
             v0 = (v0 << 8);
             previousByte = (byte)(previousByte >> 0x1);
             v1 = (v0 | v1);
@@ -211,8 +209,8 @@ namespace TM3_Tools
 
             Part8:
             //Part8
-            v0 = byteArray[sourcePointer];
             sourcePointer++;
+            v0 = byteArray[sourcePointer];
             v1 = (v1 >> 4);
             a2 = (v0 + 1);
             goto Part9;
@@ -234,8 +232,8 @@ namespace TM3_Tools
             //Part10
             Console.WriteLine("byteArray length: " + byteArray.Length + " | v1: " + v1);
             //so for some reason v1 is getting set to some ungodly large number
-            v0 = byteArray[v1]; //it causes right here because of that
             v1++;
+            v0 = byteArray[v1]; //it causes right here because of that
             a2--;
             //destination[destinationPointer] = (byte)v0;
             destList.Add((byte)v0);
